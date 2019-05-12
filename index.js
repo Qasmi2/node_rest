@@ -7,14 +7,17 @@ Genre = require('../models/genres');
 Book = require('../models/books');
 
 app.use(bodyparse.json());
+
 //connect to mongoose
 mongoose.connect('mongodb://localhost/bookstore');
 const db = mongoose.connection;
 
+// home page
 app.get('/',(req,res)=>{
     res.send("hello home page ");
 });
 
+// get genres from mongo
 app.get('/api/genres',(req,res)=>{
     Genre.getGenres((err,genres)=>{
         if(err){
@@ -24,6 +27,7 @@ app.get('/api/genres',(req,res)=>{
     });
 });
 
+// get books from mongo
 app.get('/api/books',(req,res)=>{
     Book.getBooks((err,books)=>{
         if(err){
@@ -32,5 +36,7 @@ app.get('/api/books',(req,res)=>{
         res.json(books);
     });
 });
+
+// port 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT,()=>{console.log("server is running ...")});
